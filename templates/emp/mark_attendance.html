@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marks Attendance Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .header-image {
+            background-image: url(https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcR80lhet47OrFnRR5pc0DklvNy9ny1jQYjJDs-9DIK-xG_Ww8Zj);
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .header-image h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .btn-action {
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'emp/navbar.html' %}
+    <div class="header-image">
+        <h1>Marks Attendance Dashboard</h1>
+    </div>
+
+    <div class="container mt-5">
+        <!-- Attendance Filters -->
+        <form method="GET" action="">
+            <div class="mb-3">
+                <label for="department" class="form-label">Filter by Department:</label>
+                <select name="department" id="department" class="form-select" onchange="this.form.submit()">
+                    <option value="">All Departments</option>
+                    <option value="CSE" {% if current_department == 'CSE' %}selected{% endif %}>Computer Science</option>
+                    <option value="ME" {% if current_department == 'ME' %}selected{% endif %}>Mechanical Engg</option>
+                    <option value="EE" {% if current_department == 'EE' %}selected{% endif %}>Electrical Engg</option>
+                    <option value="AI" {% if current_department == 'AI' %}selected{% endif %}>Artificial Intelligence</option>
+                    <option value="DS" {% if current_department == 'DS' %}selected{% endif %}>Data Science</option>
+                    <option value="BIC" {% if current_department == 'BIC' %}selected{% endif %}>Cyber Security</option>
+                    <option value="IT" {% if current_department == 'IT' %}selected{% endif %}>Information Technology</option>
+                    <option value="Marketing" {% if current_department == 'Marketing' %}selected{% endif %}>Marketing Dept</option>
+                    <option value="Finance" {% if current_department == 'Finance' %}selected{% endif %}>Finance Dept</option>
+                    <option value="HR" {% if current_department == 'HR' %}selected{% endif %}>Human Resources</option>
+                    <option value="Admin" {% if current_department == 'Admin' %}selected{% endif %}>Administrations</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="date" class="form-label">Filter by Date:</label>
+                <input type="date" name="date" id="date" class="form-control" value="{{ current_date }}" onchange="this.form.submit()">
+            </div>
+        </form>
+
+        <!-- Attendance Form -->
+        <form method="POST" action="{% url 'mark_attendance' %}">
+            {% csrf_token %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Employee Name</th>
+                        <th>Employee ID</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Attendance Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for emp in emps %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ emp.name }}</td>
+                            <td>{{ emp.emp_id }}</td>
+                            <td>
+                                <input type="time" name="check_in_{{ emp.id }}" value="{{ emp.check_in }}">
+                            </td>
+                            <td>
+                                <input type="time" name="check_out_{{ emp.id }}" value="{{ emp.check_out }}">
+                            </td>
+                            <td>
+                                <select name="attendance_status_{{ emp.id }}" class="form-control">
+                                    <option value="Present" {% if emp.attendance_status == 'Present' %}selected{% endif %}>Present</option>
+                                    <option value="Absent" {% if emp.attendance_status == 'Absent' %}selected{% endif %}>Absent</option>
+                                    <option value="Leave" {% if emp.attendance_status == 'Leave' %}selected{% endif %}>Leave</option>
+                                </select>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-primary">Mark Attendance</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager - EMS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .header-image {
+            background-image: url(https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcR80lhet47OrFnRR5pc0DklvNy9ny1jQYjJDs-9DIK-xG_Ww8Zj);
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .header-image h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background: #f8f9fa;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar h4 {
+            margin-bottom: 20px;
+        }
+        .sidebar p {
+            margin: 5px 0;
+        }
+        .container {
+            margin-left: 250px; /* Added margin to account for sidebar */
+        }
+    </style>
+</head>
+<body>
+    {% include 'emp/navbar.html' %}
+
+    <div class="sidebar">
+        <h4>Manager Profile</h4>
+        <p>Username: {{ user.username }}</p>
+        <p>Email: {{ user.email }}</p>
+        <p>Role: Manager</p>
+        <p>Joined on: {{ user.date_joined|date:"Y-m-d" }}</p>
+    </div>
+
+    <div class="header-image">
+        <h1>Manager Dashboard</h1>
+    </div>
+
+    <div class="container">
+        <h2 class="mt-4">Employee List</h2>
+
+        <form method="GET" action="">
+            <div class="mb-3">
+                <label for="project" class="form-label">Filter by Project:</label>
+                <select name="project" id="project" class="form-select" onchange="this.form.submit()">
+                    <option value="">All Projects</option>
+                    <option value="Project1" {% if current_project == 'Project1' %}selected{% endif %}>Project 1</option>
+                    <option value="Project2" {% if current_project == 'Project2' %}selected{% endif %}>Project 2</option>
+                    <option value="Project3" {% if current_project == 'Project3' %}selected{% endif %}>Project 3</option>
+                    <!-- Add more projects as needed -->
+                </select>
+            </div>
+        </form>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>S.NO.</th>
+                    <th>
+                        <a href="?sort_by=name&order={% if current_sort_by == 'name' and current_order == 'asc' %}desc{% else %}asc{% endif %}">
+                            NAME
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort_by=emp_id&order={% if current_sort_by == 'emp_id' and current_order == 'asc' %}desc{% else %}asc{% endif %}">
+                            ID
+                        </a>
+                    </th>
+                    <th class="text-center">PROJECTS</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in emps %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ e.name }}</td>
+                    <td>{{ e.emp_id }}</td>
+                    <td>{{ e.project }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Performance Management System - FAQ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        strong {
+            color: #007BFF; /* Bootstrap primary color */
+        }
+    </style>
+</head>
+<body>
+    <h1>Frequently Asked Questions</h1>
+    <ul id="faq-list">
+        <!-- FAQ items will be rendered here by JavaScript -->
+    </ul>
+
+    <script type="text/javascript">
+        const faqs = [
+            {
+                question: "What is the purpose of the Employee Performance Management System?",
+                answer: "The Employee Performance Management System is designed to streamline the evaluation process, enhance employee development, and align individual performance with organizational goals."
+            },
+            {
+                question: "How often should performance reviews be conducted?",
+                answer: "Performance reviews should typically be conducted bi-annually or annually, but ongoing feedback and check-ins are encouraged to foster continuous improvement."
+            },
+            {
+                question: "Can employees set their own performance goals?",
+                answer: "Yes! Employees are encouraged to collaborate with their managers to set achievable and measurable performance goals that align with both personal aspirations and company objectives."
+            },
+            {
+                question: "What criteria are used to evaluate employee performance?",
+                answer: "Performance evaluations are based on a combination of quantitative metrics, qualitative feedback, and self-assessments to provide a comprehensive view of an employee's contributions."
+            },
+            {
+                question: "How can I provide feedback on my manager's performance?",
+                answer: "Feedback can be submitted through the system's anonymous survey feature or during scheduled one-on-one meetings where open dialogue is encouraged."
+            }
+        ];
+
+        // Render FAQ list dynamically using JavaScript
+        const faqList = document.getElementById('faq-list');
+        faqs.forEach(faq => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `<strong>${faq.question}</strong><br>${faq.answer}`;
+            faqList.appendChild(listItem);
+        });
+    </script>
+</body>
+</html>
